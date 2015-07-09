@@ -19,7 +19,7 @@ package com.twcable.grabbit.client.batch.steps.jcrnodes
 import com.twcable.grabbit.client.batch.ClientBatchJobContext
 import com.twcable.grabbit.jcr.JCRNodeDecorator
 import com.twcable.grabbit.jcr.ProtoNodeDecorator
-import com.twcable.grabbit.proto.NodeProtos
+import com.twcable.grabbit.proto.NodeProtos.Node as ProtoNode
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.jackrabbit.commons.JcrUtils
@@ -44,7 +44,7 @@ import static org.apache.jackrabbit.JcrConstants.NT_FILE
 @Slf4j
 @CompileStatic
 @SuppressWarnings('GrMethodMayBeStatic')
-class JcrNodesWriter implements ItemWriter<NodeProtos.Node>, ItemWriteListener {
+class JcrNodesWriter implements ItemWriter<ProtoNode>, ItemWriteListener {
 
     @Override
     void beforeWrite(List nodeProtos) {
@@ -69,9 +69,9 @@ class JcrNodesWriter implements ItemWriter<NodeProtos.Node>, ItemWriteListener {
 
 
     @Override
-    void write(List<? extends NodeProtos.Node> nodeProtos) throws Exception {
+    void write(List<? extends ProtoNode> nodeProtos) throws Exception {
         Session session = theSession()
-        for (NodeProtos.Node nodeProto : nodeProtos) {
+        for (ProtoNode nodeProto : nodeProtos) {
             writeToJcr(nodeProto, session)
         }
     }
@@ -90,7 +90,7 @@ class JcrNodesWriter implements ItemWriter<NodeProtos.Node>, ItemWriteListener {
     }
 
 
-    private static void writeToJcr(NodeProtos.Node nodeProto, Session session) {
+    private static void writeToJcr(ProtoNode nodeProto, Session session) {
 
         JCRNodeDecorator jcrNode = new ProtoNodeDecorator(nodeProto).writeToJcr(session)
 

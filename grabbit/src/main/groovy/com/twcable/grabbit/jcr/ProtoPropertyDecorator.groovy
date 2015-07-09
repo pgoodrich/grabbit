@@ -26,6 +26,7 @@ class ProtoPropertyDecorator {
         this.innerProtoProperty = protoProperty
     }
 
+
     void writeToNode(@Nonnull JCRNode node) {
         if(primaryType || mixinType) throw new IllegalStateException("Refuse to write jcr:primaryType or jcr:mixinType as normal properties.  These are not allowed")
         try {
@@ -52,21 +53,26 @@ class ProtoPropertyDecorator {
         }
     }
 
+
     boolean isPrimaryType() {
         innerProtoProperty.name == JCR_PRIMARYTYPE
     }
+
 
     boolean isMixinType() {
         innerProtoProperty.name == JCR_MIXINTYPES
     }
 
+
     private Value getPropertyValue() throws ValueFormatException {
         getJCRValueFromProtoValue(innerProtoProperty.getValue())
     }
 
+
     private Value[] getPropertyValues() throws ValueFormatException {
         return innerProtoProperty.values.valueList.collect { ProtoValue protoValue -> getJCRValueFromProtoValue(protoValue) } as Value[]
     }
+
 
     private Value getJCRValueFromProtoValue(ProtoValue value) throws ValueFormatException {
 

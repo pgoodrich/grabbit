@@ -18,6 +18,7 @@ class JCRNodeDecorator {
     @Delegate
     JCRNode innerNode
 
+
     JCRNodeDecorator(@Nonnull JCRNode node) {
         if(!node) throw new IllegalArgumentException("node must not be null!")
         this.innerNode = node

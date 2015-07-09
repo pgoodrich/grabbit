@@ -16,6 +16,7 @@ class ProtoNodeDecoratorSpec extends Specification {
 
     ProtoNode decoratedProtoNode
 
+
     def setup() {
         NodeProtos.Node.Builder nodeBuilder = NodeProtos.Node.newBuilder()
         nodeBuilder.setName("somenode")
@@ -57,6 +58,7 @@ class ProtoNodeDecoratorSpec extends Specification {
         decoratedProtoNode = nodeBuilder.build()
     }
 
+
     def "ProtoNodeDecorator can not be constructed with a null ProtoNode"() {
         when:
         new ProtoNodeDecorator(null)
@@ -65,6 +67,7 @@ class ProtoNodeDecoratorSpec extends Specification {
         thrown(IllegalArgumentException)
     }
 
+
     def "Can get primary type"() {
         when:
         final protoNodeDecorator = new ProtoNodeDecorator(decoratedProtoNode)
@@ -72,6 +75,7 @@ class ProtoNodeDecoratorSpec extends Specification {
         then:
         protoNodeDecorator.getPrimaryType() == "nt:unstructured"
     }
+
 
     def "can get mixin property"() {
         given:
@@ -85,6 +89,7 @@ class ProtoNodeDecoratorSpec extends Specification {
         property.name == JCR_MIXINTYPES
     }
 
+
     def "Can get just writable properties"() {
         given:
         final protoNodeDecorator = new ProtoNodeDecorator(decoratedProtoNode)
@@ -96,6 +101,7 @@ class ProtoNodeDecoratorSpec extends Specification {
         properties.size() == 1
         properties[0].value.stringValue == "somevalue"
     }
+
 
     def "Can write the decorated node to the JCR"() {
         given:
@@ -118,5 +124,4 @@ class ProtoNodeDecoratorSpec extends Specification {
         //Only one other property that needs to be written
         1 * node.setProperty(_, _, _)
     }
-
 }

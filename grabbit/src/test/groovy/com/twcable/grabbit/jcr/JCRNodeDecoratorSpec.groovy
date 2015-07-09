@@ -21,6 +21,7 @@ class JCRNodeDecoratorSpec extends Specification {
         thrown(IllegalArgumentException)
     }
 
+
     def "setLastModified() when last modified can be set"() {
         given:
         Node node = Mock(Node) {
@@ -37,6 +38,7 @@ class JCRNodeDecoratorSpec extends Specification {
         1 * node.setProperty(JCR_LASTMODIFIED, _)
         notThrown(RepositoryException)
     }
+
 
     def "setLastModified() when last modified can not be set"() {
         given:
@@ -55,6 +57,7 @@ class JCRNodeDecoratorSpec extends Specification {
         notThrown(RepositoryException)
     }
 
+
     def "During setLastModified() when something goes wrong with getPrimaryNodeType() we handle this case gracefully"() {
         given:
         Node node = Mock(Node) {
@@ -68,6 +71,7 @@ class JCRNodeDecoratorSpec extends Specification {
         then:
         notThrown(RepositoryException)
     }
+
 
     def "getPrimaryType()"() {
         given:
@@ -83,6 +87,7 @@ class JCRNodeDecoratorSpec extends Specification {
         then:
         nodeDecorator.getPrimaryType() == "nt:file"
     }
+
 
     def "Can adapt the decorator back to the wrapped node"() {
         given:

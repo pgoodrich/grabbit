@@ -68,6 +68,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
         1 * mockNode.setProperty("someproperty", new StringValue("somevalue"), PropertyType.STRING)
     }
 
+
     def "A multi-value property can be written correctly to a node that expects a multi-value property"() {
         given:
         final mockNode = Mock(Node)
@@ -94,6 +95,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
         then:
         1 * mockNode.setProperty("somemultivalueproperty", [new StringValue("value1"), new StringValue("value2")] as Value[], PropertyType.STRING)
     }
+
 
     def "A single-value property that is attempted to be written to a multi-value property can recover, and be written"() {
         given:
@@ -125,6 +127,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
         1 * mockNode.setProperty("somename", [new StringValue("somevalue")] as Value[], PropertyType.STRING)
     }
 
+
     def "A multi-value property that is attempted to be written to a single-value property can recover, and be written"() {
         given:
         final mockNode = Mock(Node)
@@ -155,6 +158,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
         1 * mockNode.setProperty("somemultivalueproperty", new StringValue("value1"), PropertyType.STRING)
     }
 
+
     def "A property with a binary value can be successfully written"() {
         given:
         final mockNode = Mock(Node)
@@ -178,6 +182,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
         then:
         1 * mockNode.setProperty("jcr:data", _ as BinaryValue, PropertyType.BINARY)
     }
+
 
     def "A property with a date value can be successfully written"() {
         given:
