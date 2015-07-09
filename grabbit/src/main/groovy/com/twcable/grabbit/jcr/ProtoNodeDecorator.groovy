@@ -30,11 +30,11 @@ class ProtoNodeDecorator {
     }
 
     String getPrimaryType() {
-        protoProperties.find { it.isPrimary() }.value.stringValue
+        protoProperties.find { it.isPrimaryType() }.value.stringValue
     }
 
     ProtoPropertyDecorator getMixinProperty() {
-        protoProperties.find { it.name == JCR_MIXINTYPES }
+        protoProperties.find { it.isMixinType() }
     }
 
     Collection<ProtoPropertyDecorator> getWritableProperties() {

@@ -13,6 +13,7 @@ import javax.jcr.PropertyType
 import javax.jcr.Value
 import javax.jcr.ValueFormatException
 
+import static org.apache.jackrabbit.JcrConstants.JCR_MIXINTYPES
 import static org.apache.jackrabbit.JcrConstants.JCR_PRIMARYTYPE
 
 @CompileStatic
@@ -26,6 +27,7 @@ class ProtoPropertyDecorator {
     }
 
     void writeToNode(@Nonnull JCRNode node) {
+        if(primaryType || mixinType) throw new IllegalStateException("Refuse to write jcr:primaryType or jcr:mixinType as normal properties.  These are not allowed")
         try {
             if (!innerProtoProperty.hasValues()) {
                 node.setProperty(innerProtoProperty.name, getPropertyValue(), innerProtoProperty.type)
@@ -50,8 +52,12 @@ class ProtoPropertyDecorator {
         }
     }
 
-    boolean isPrimary() {
+    boolean isPrimaryType() {
         innerProtoProperty.name == JCR_PRIMARYTYPE
+    }
+
+    boolean isMixinType() {
+        innerProtoProperty.name == JCR_MIXINTYPES
     }
 
     private Value getPropertyValue() throws ValueFormatException {
