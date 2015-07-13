@@ -1,5 +1,6 @@
 package com.twcable.grabbit.jcr
 
+import com.day.cq.commons.jcr.JcrConstants
 import com.twcable.grabbit.proto.NodeProtos
 import com.twcable.grabbit.proto.NodeProtos.Node as ProtoNode
 import spock.lang.Specification
@@ -27,7 +28,7 @@ class ProtoNodeDecoratorSpec extends Specification {
                 .newBuilder()
                 .setName(JCR_PRIMARYTYPE)
                 .setType(STRING)
-                .setValue(NodeProtos.Value.newBuilder().setStringValue("nt:unstructured"))
+                .setValue(NodeProtos.Value.newBuilder().setStringValue(JcrConstants.NT_UNSTRUCTURED))
                 .build()
         propertiesBuilder.addProperty(primaryTypeProperty)
 
@@ -73,7 +74,7 @@ class ProtoNodeDecoratorSpec extends Specification {
         final protoNodeDecorator = new ProtoNodeDecorator(decoratedProtoNode)
 
         then:
-        protoNodeDecorator.getPrimaryType() == "nt:unstructured"
+        protoNodeDecorator.getPrimaryType() == JcrConstants.NT_UNSTRUCTURED
     }
 
 

@@ -78,15 +78,15 @@ class ProtoPropertyDecorator {
 
         final valueFactory = ValueFactoryImpl.getInstance()
 
-        if (innerProtoProperty.type == PropertyType.BINARY) {
-            final binary = valueFactory.createBinary(new ByteArrayInputStream(value.bytesValue.toByteArray()))
-            return valueFactory.createValue(binary)
+        switch(innerProtoProperty.type) {
+            case PropertyType.BINARY:
+                final binary = valueFactory.createBinary(new ByteArrayInputStream(value.bytesValue.toByteArray()))
+                return valueFactory.createValue(binary)
+            case PropertyType.DATE:
+                final date = DateUtil.getCalendarFromISOString(value.stringValue)
+                return valueFactory.createValue(date)
+            default:
+                return valueFactory.createValue(value.stringValue, innerProtoProperty.type)
         }
-        else if (innerProtoProperty.type == PropertyType.DATE) {
-            final date = DateUtil.getCalendarFromISOString(value.stringValue)
-            return valueFactory.createValue(date)
-        }
-
-        return valueFactory.createValue(value.stringValue, innerProtoProperty.type)
     }
 }

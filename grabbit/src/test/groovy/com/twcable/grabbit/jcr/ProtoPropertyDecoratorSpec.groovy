@@ -1,5 +1,6 @@
 package com.twcable.grabbit.jcr
 
+import com.day.cq.commons.jcr.JcrConstants
 import com.google.protobuf.ByteString
 import com.twcable.grabbit.proto.NodeProtos.Property as PropertyProto
 import com.twcable.grabbit.proto.NodeProtos.Value as ProtoValue
@@ -166,7 +167,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
 
         when:
         PropertyProto someProperty = PropertyProto.newBuilder()
-                                        .setName("jcr:data")
+                                        .setName(JcrConstants.JCR_DATA)
                                         .setType(PropertyType.BINARY)
                                         .setValue(
                                             ProtoValue.newBuilder()
@@ -180,7 +181,7 @@ class ProtoPropertyDecoratorSpec extends Specification {
         propertyDecorator.writeToNode(mockNode)
 
         then:
-        1 * mockNode.setProperty("jcr:data", _ as BinaryValue, PropertyType.BINARY)
+        1 * mockNode.setProperty(JcrConstants.JCR_DATA, _ as BinaryValue, PropertyType.BINARY)
     }
 
 

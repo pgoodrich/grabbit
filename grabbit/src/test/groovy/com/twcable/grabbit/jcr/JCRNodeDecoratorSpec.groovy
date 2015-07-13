@@ -1,5 +1,6 @@
 package com.twcable.grabbit.jcr
 
+import com.day.cq.commons.jcr.JcrConstants
 import spock.lang.Specification
 
 import javax.jcr.Node
@@ -77,7 +78,7 @@ class JCRNodeDecoratorSpec extends Specification {
         given:
         Node node = Mock(Node) {
             getProperty(JCR_PRIMARYTYPE) >> Mock(Property) {
-                getString() >> { "nt:file" }
+                getString() >> { JcrConstants.NT_FILE }
             }
         }
 
@@ -85,7 +86,7 @@ class JCRNodeDecoratorSpec extends Specification {
         final nodeDecorator = new JCRNodeDecorator(node)
 
         then:
-        nodeDecorator.getPrimaryType() == "nt:file"
+        nodeDecorator.getPrimaryType() == JcrConstants.NT_FILE
     }
 
 
