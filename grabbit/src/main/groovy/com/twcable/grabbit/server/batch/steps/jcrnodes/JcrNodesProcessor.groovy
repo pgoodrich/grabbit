@@ -90,6 +90,9 @@ class JcrNodesProcessor implements ItemProcessor<JcrNode, Node> {
             }
         }
 
+        if (isRequiredChildNode(jcrNode))
+            return null
+
         return buildNode(jcrNode)
     }
 
