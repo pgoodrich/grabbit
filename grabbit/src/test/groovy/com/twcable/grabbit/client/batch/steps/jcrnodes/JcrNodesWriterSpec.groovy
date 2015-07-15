@@ -34,7 +34,7 @@ import static org.apache.jackrabbit.JcrConstants.JCR_LASTMODIFIED
 @Subject(JcrNodesWriter)
 class JcrNodesWriterSpec extends Specification {
 
-    def "Can get a Jcr File Node given a single Protobuf Message Node"() {
+    def "Can get a Jcr File Node given a single Protobuf Message Node"() { // TODO: Update tests
         given:
         NodeProtos.Node.Builder nodeBuilder = NodeProtos.Node.newBuilder()
         nodeBuilder.setName("/default.groovy")

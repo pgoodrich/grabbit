@@ -92,6 +92,8 @@ class JcrNodesWriter implements ItemWriter<ProtoNode>, ItemWriteListener {
 
     private static void writeToJcr(ProtoNode nodeProto, Session session) {
 
+        // TODO: Update to handle multiple nodes, move nt_file handling
+
         JCRNodeDecorator jcrNode = new ProtoNodeDecorator(nodeProto).writeToJcr(session)
 
         //If the primary type is NT_FILE, we have to do some goofiness to make sure a jcr:content node is written with the nt_file node

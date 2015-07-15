@@ -95,6 +95,7 @@ configurations.cq_package {
     
     exclude group: 'com.google.code.findbugs', module: 'jsr305'
 
+    exclude group: 'com.day.cq', module: 'cq-replication'
     exclude group: 'com.day.cq.workflow', module: 'cq-workflow-console'
 
     exclude group: 'org.apache.felix', module: 'org.apache.felix.scr.annotations'

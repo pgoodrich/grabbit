@@ -206,7 +206,6 @@ class JcrJobInstanceDao extends AbstractJcrDao implements JobInstanceDao {
             final startIndex = Math.min(start, jobInstances.size());
             final endIndex = Math.min(start + count, jobInstances.size());
 
-            //TODO : This is going to
             final sortedInstances = jobInstances.sort(false) { a, b ->
                 ((JobInstance)b).id <=> ((JobInstance)a).id
             } as List<JobInstance>

@@ -6,6 +6,7 @@ dependencies {
     // Used as part of the build to create the OSGI-INF/serviceComponents.xml file
     compile "org.apache.felix:org.apache.felix.scr.annotations:${scr_annotations_version}"
 
+    compile "com.day.cq:cq-replication:${cq_replication_version}"
     compile "com.day.cq.workflow:cq-workflow-console:${cq_version_workflow_console}"
 
     //Google libraries

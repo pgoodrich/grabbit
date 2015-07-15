@@ -91,15 +91,13 @@ class GrabbitConfiguration {
     static Collection<String> nonEmptyCollection(Collection<String> excludePaths, ConfigurationException.Builder errorBuilder) {
         if (excludePaths == null || excludePaths.isEmpty())
             return Collections.EMPTY_LIST
-        if (excludePaths.any({ it == null || it.isEmpty() })) {
+
+        if (excludePaths.any({ it == null || it.isEmpty() }))
             errorBuilder.add('excludePaths', 'contains null/empty')
-            return excludePaths
-        } else if (excludePaths.any { it.matches(prePattern) || it.matches(postPattern) } ) {
+        else if (excludePaths.any { it.matches(prePattern) || it.matches(postPattern) } )
             errorBuilder.add('excludePaths', 'relative paths provided cannot begin or end with /, ./ or \\')
-            return excludePaths
-        } else {
-            return excludePaths
-        }
+
+        return excludePaths
     }
 
 

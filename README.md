@@ -16,7 +16,7 @@ Moreover, by doing a continuous stream, we avoid the latency issues. Depending o
  
 # Runtime Dependencies
 
-* AEM/CQ v5.6.1
+* AEM/CQ v5.6.1 - v6.1.0.
 * To run Grabbit in your AEM/CQ instance, **you need to install a Fragment Bundle once per instance. It can be found [here](https://bintray.com/artifact/download/twcable/aem/dependencies/Sun-Misc-Fragment-Bundle-1.0.0.zip)**
 
 # Building #

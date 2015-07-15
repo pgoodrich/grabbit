@@ -16,6 +16,7 @@
 
 package com.twcable.grabbit.server.batch.steps.jcrnodes
 
+import com.day.cq.replication.DefaultAggregateHandler
 import com.google.protobuf.ByteString
 import com.twcable.grabbit.DateUtil
 import com.twcable.grabbit.proto.NodeProtos
@@ -27,6 +28,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.batch.item.ItemProcessor
 
 import javax.jcr.Node as JcrNode
+import javax.jcr.NodeIterator
 import javax.jcr.Property as JcrProperty
 import javax.jcr.PropertyType
 import javax.jcr.Value
@@ -88,9 +90,20 @@ class JcrNodesProcessor implements ItemProcessor<JcrNode, Node> {
             }
         }
 
+        return buildNode(jcrNode)
+    }
+
+    private static Node buildNode(JcrNode jcrNode) {
         final List<JcrProperty> properties = jcrNode.properties.toList()
         Node.Builder nodeBuilder = Node.newBuilder()
         nodeBuilder.setName(jcrNode.path)
+
+        if (isHierarchyNode(jcrNode) && !isRequiredChildNode(jcrNode)) {
+            List<JcrNode> childNodes = new ArrayList<JcrNode>()
+            getRequiredChildNodes(childNodes, jcrNode).each {
+                nodeBuilder.addChildNode(buildNode(it))
+            }
+        }
 
         Properties.Builder propertiesBuilder = Properties.newBuilder()
         properties.each { JcrProperty jcrProperty ->
@@ -101,9 +114,30 @@ class JcrNodesProcessor implements ItemProcessor<JcrNode, Node> {
                 propertiesBuilder.addProperty(property)
             }
         }
-        nodeBuilder.setProperties(propertiesBuilder.build())
 
+        nodeBuilder.setProperties(propertiesBuilder.build())
         nodeBuilder.build()
+    }
+
+    private static List<JcrNode> getRequiredChildNodes(List<JcrNode> childNodes, JcrNode jcrNode) {
+        NodeIterator nodeIterator = jcrNode.getNodes()
+        while (nodeIterator.hasNext()) {
+            JcrNode currentNode = nodeIterator.nextNode()
+
+            if (isRequiredChildNode(currentNode)) {
+                childNodes.add(currentNode)
+                childNodes = getRequiredChildNodes(childNodes, currentNode)
+            }
+        }
+        return childNodes
+    }
+
+    private static boolean isRequiredChildNode(JcrNode node) {
+        return node.getDefinition().isMandatory() || node.getParent().getDefinition().requiredPrimaryTypes.contains(node.getPrimaryNodeType())
+    }
+
+    private static boolean isHierarchyNode(JcrNode node) {
+        return new DefaultAggregateHandler().isAggregateRoot(node)
     }
 
     /**
