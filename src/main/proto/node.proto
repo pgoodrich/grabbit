@@ -1,0 +1,25 @@
+package com.twcable.grabbit.proto;
+
+option java_package = "com.twcable.grabbit.proto";
+option java_outer_classname = "NodeProtos";
+
+message Node {
+    required string name = 1;
+    repeated Property properties = 2;
+    repeated Node mandatoryChildNode = 3;
+}
+
+message Property {
+    required string name = 1;
+    required uint32 type = 2;
+    required bool multiple = 3;
+    repeated Value values = 4;
+}
+
+message Value {
+    //Essentially a C-Style union
+    oneof type {
+      string stringValue = 1;
+      bytes bytesValue = 2;
+    }
+}

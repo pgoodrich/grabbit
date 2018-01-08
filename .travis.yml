@@ -1,20 +1,16 @@
 language: groovy
 
-#The Travis team has approved protobuf 2.4.1 as a "safe" apt package.  2.4.1 is currently the only version available.  See full whitelist here : https://github.com/travis-ci/apt-package-whitelist
-addons:
-  apt:
-    packages:
-      - protobuf-compiler
-
 #Yeah, we are going to want to cache our build dependencies so our builds aren't held up downloading for every container
 cache:
   directories:
     - $HOME/.gradle
+    - $HOME/protobuf
+
+dist: trusty
 
 jdk:
-  - oraclejdk7
   - oraclejdk8
-  - openjdk7
+  - openjdk8
 
 # Allow running on a container instead of a traditional VM
 sudo: false
@@ -22,9 +18,13 @@ sudo: false
 #There is currently an issue in Gradle where a forked JVM will ignore any no-daemon flag (--no-daemon, org.gradle.daemon) for the forked process if jvm args are supplied. 
 #We remove them to get around this
 env:
-  - GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=''"
+  global:
+    - GRADLE_OPTS="-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=''"
+    - PATH="$PATH:$HOME/protobuf/bin"
 
-#Travis will mark a build as a failed if the script/install process exits(1).  Since the normal Gradle wrapper exits 0 even if the test runner reports failures, we have to wrap the wrapper.  
-#We want to replace the default install task.  Travis automatically adds "./gradlew assemble" if it detects a gradle project
-install: ./travis-gradlew assemble
-script: ./travis-gradlew check
+before_install:
+  - bash install_protoc_from_source.sh
+install: ./gradlew assemble
+script: ./gradlew check
+
+

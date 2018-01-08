@@ -1,0 +1,13 @@
+package com.twcable.grabbit.proto;
+
+option java_package = "com.twcable.grabbit.proto";
+option java_outer_classname = "NamespaceProtos";
+
+message NamespaceRegistry {
+    repeated NamespaceEntry entry = 1;
+}
+
+message NamespaceEntry {
+    required string prefix = 1;
+    required string uri = 2;
+}

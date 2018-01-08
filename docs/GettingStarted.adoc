@@ -1,0 +1,16 @@
+== Getting Started
+
+The JCR 2.0 Specification (JSR-283) is included under docs for quick reference
+
+== Prerequisites
+
+=== Installing Protocol Buffers Compiler
+
+==== For Windows
+The easiest way to install the compiler is to install the binary from https://github.com/google/protobuf/releases/download/v2.6.1/protoc-2.6.1-win32.zip and then set the `/path/to/protoc/parent` on your PATH variable.
+
+==== For Macs
+
+Run ./install_protoc_from_source.sh located at the root of this project. This will compile the protoc compiler
+
+_For both Windows and Mac : To verify that installation was successful, `protoc --version` should display `2.6.1`_
